@@ -13,6 +13,9 @@
 - `Health`
   - `GET /api/v1/health`
   - endpoint public untuk validasi boot aplikasi
+- `Readiness`
+  - `GET /api/v1/readiness`
+  - endpoint public untuk validasi koneksi database dan cache
 - `Auth`
   - `POST /api/v1/auth/login`
   - `POST /api/v1/auth/logout`
@@ -54,8 +57,12 @@
 5. Tambahkan controller tipis yang hanya memanggil action.
 6. Tambahkan route dan permission middleware.
 7. Tambahkan feature test happy path dan edge cases.
+8. Sinkronkan dokumentasi module dan ERD bila ada perubahan skema.
 
 ## Quality Gate
-- Jalankan `php artisan pint`
+- Jalankan `composer lint`
+- Jalankan `composer analyse`
+- Jalankan `composer test`
+- Jalankan `composer quality`
 - Jalankan `php artisan test`
 - Pastikan error API tetap memakai envelope standar
