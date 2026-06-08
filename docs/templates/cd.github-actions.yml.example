@@ -1,0 +1,95 @@
+name: CD
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Deployment target environment"
+        required: true
+        default: "staging"
+        type: choice
+        options:
+          - staging
+          - production
+      git_ref:
+        description: "Branch, tag, or commit SHA to deploy"
+        required: true
+        default: "main"
+        type: string
+      run_migrations:
+        description: "Run php artisan migrate --force"
+        required: true
+        default: true
+        type: boolean
+      enable_maintenance_mode:
+        description: "Put app into maintenance mode during deployment"
+        required: true
+        default: true
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: Deploy to ${{ inputs.environment }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout selected reference
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.git_ref }}
+
+      - name: Start SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Register server host key
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -p "${{ secrets.DEPLOY_PORT }}" -H "${{ secrets.DEPLOY_HOST }}" >> ~/.ssh/known_hosts
+
+      - name: Deploy application
+        env:
+          DEPLOY_HOST: ${{ secrets.DEPLOY_HOST }}
+          DEPLOY_PORT: ${{ secrets.DEPLOY_PORT }}
+          DEPLOY_USER: ${{ secrets.DEPLOY_USER }}
+          DEPLOY_PATH: ${{ secrets.DEPLOY_PATH }}
+          APP_ENVIRONMENT: ${{ inputs.environment }}
+          GIT_REF: ${{ inputs.git_ref }}
+          RUN_MIGRATIONS: ${{ inputs.run_migrations }}
+          ENABLE_MAINTENANCE_MODE: ${{ inputs.enable_maintenance_mode }}
+        run: |
+          ssh -p "$DEPLOY_PORT" "$DEPLOY_USER@$DEPLOY_HOST" <<EOF
+            set -e
+            cd "$DEPLOY_PATH"
+            git fetch --all --prune
+            git checkout "$GIT_REF"
+            git pull --ff-only origin "$GIT_REF" || true
+
+            if [ "$ENABLE_MAINTENANCE_MODE" = "true" ]; then
+              php artisan down --render="errors::503" --retry=60
+            fi
+
+            composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
+            php artisan optimize:clear
+
+            if [ "$RUN_MIGRATIONS" = "true" ]; then
+              php artisan migrate --force
+            fi
+
+            php artisan config:cache
+            php artisan route:cache
+            php artisan event:cache
+
+            if [ "$ENABLE_MAINTENANCE_MODE" = "true" ]; then
+              php artisan up
+            fi
+          EOF

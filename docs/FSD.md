@@ -28,11 +28,15 @@
   - assignment permission ke role
 - `Permissions`
   - CRUD permission
+- `Audit Trail`
+  - audit internal untuk perubahan RBAC sensitif
+  - mencatat actor, event, subject, before/after snapshot, dan context request
 
 ## Security
 - Auth token: Laravel Sanctum personal access tokens
 - Authorization: Spatie Permission middleware alias `role`, `permission`, `role_or_permission`
 - Default policy: semua route private kecuali `health` dan `login`
+- RBAC audit trail: perubahan role/permission terekam di tabel `audit_logs`
 
 ## Seeder Default
 - Roles:
@@ -66,3 +70,10 @@
 - Jalankan `composer quality`
 - Jalankan `php artisan test`
 - Pastikan error API tetap memakai envelope standar
+
+## CI/CD
+- GitHub Actions nonaktif secara default
+- Template workflow disediakan di `docs/templates/ci.github-actions.yml.example`
+- Template deploy disediakan di `docs/templates/cd.github-actions.yml.example`
+- Panduan aktivasi CI disediakan di `docs/CI_SETUP.md`
+- Panduan aktivasi CD disediakan di `docs/CD_SETUP.md`

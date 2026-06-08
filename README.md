@@ -52,6 +52,7 @@ Failed responses:
 - Readiness endpoint for database and cache dependency checks
 - Sanctum-based login, logout, and authenticated profile endpoints
 - RBAC foundation with roles, permissions, and protected resource routes
+- Internal audit trail for RBAC mutations, including actor, subject, and before/after snapshots
 - Reference modules for `users`, `roles`, and `permissions`
 - Default seeded roles: `SuperAdmin`, `Manager`, and `User`
 - Development bootstrap account for `local` and `testing` environments
@@ -134,13 +135,19 @@ php artisan test
 
 The automated test suite uses `SQLite in-memory` via `phpunit.xml` for fast execution.
 
-## CI
+## CI / CD
 
-A GitHub Actions workflow is included at `.github/workflows/ci.yml`. It runs the core verification steps on every push and pull request:
+GitHub Actions is disabled by default in this boilerplate.
+
+If you want to enable it later, use the provided template at `docs/templates/ci.github-actions.yml.example` and follow the activation notes in `docs/CI_SETUP.md`.
+
+For deployment, use the separate template at `docs/templates/cd.github-actions.yml.example` and the activation guide in `docs/CD_SETUP.md`.
+
+The intended minimum CI quality gate remains:
 
 - `composer lint`
 - `composer analyse`
-- `php artisan test`
+- `composer test`
 
 ## Notes
 

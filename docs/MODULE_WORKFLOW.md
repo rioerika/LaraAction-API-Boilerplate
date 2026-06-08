@@ -61,5 +61,12 @@ Untuk module `Product`, struktur minimum yang diharapkan:
 - `composer analyse`
 - `composer test`
 - `composer quality`
+
+## Optional CI
+- Workflow GitHub Actions tidak aktif secara default.
+- Gunakan template `docs/templates/ci.github-actions.yml.example` jika ingin menyalakan CI.
+- Ikuti panduan di `docs/CI_SETUP.md`.
+- Untuk deployment gunakan template `docs/templates/cd.github-actions.yml.example`.
+- Ikuti panduan di `docs/CD_SETUP.md`.
 - review endpoint baru terhadap kontrak JSON standar
 - review permission middleware dan seeder akses

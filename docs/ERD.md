@@ -119,10 +119,27 @@ erDiagram
         bigint role_id PK, FK
     }
 
+    audit_logs {
+        bigint id PK
+        bigint actor_id FK
+        string event
+        string subject_type
+        string subject_id
+        string subject_name
+        json old_values
+        json new_values
+        json metadata
+        string ip_address
+        text user_agent
+        timestamp created_at
+        timestamp updated_at
+    }
+
     users ||--o{ sessions : "has"
     users ||--o{ personal_access_tokens : "owns"
     users ||--o{ model_has_roles : "assigned"
     users ||--o{ model_has_permissions : "assigned"
+    users ||--o{ audit_logs : "acts_in"
     roles ||--o{ model_has_roles : "mapped"
     permissions ||--o{ model_has_permissions : "mapped"
     roles ||--o{ role_has_permissions : "contains"
