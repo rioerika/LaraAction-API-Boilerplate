@@ -7,6 +7,12 @@ parameters:
         - app
         - tests
     tmpDir: storage/phpstan
-    checkMissingIterableValueType: false
-    checkGenericClassInNonGenericObjectType: false
+    parallel:
+        maximumNumberOfProcesses: 1
     treatPhpDocTypesAsCertain: false
+    reportUnmatchedIgnoredErrors: false
+    ignoreErrors:
+        -
+            identifier: missingType.iterableValue
+        -
+            identifier: missingType.generics

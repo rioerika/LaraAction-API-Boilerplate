@@ -52,7 +52,21 @@ return [
     |
     */
 
-    'expiration' => null,
+    'expiration' => env('SANCTUM_TOKEN_EXPIRATION', 120),
+
+    /*
+    |--------------------------------------------------------------------------
+    | Token Limits
+    |--------------------------------------------------------------------------
+    |
+    | These values control the login throttle and active token rotation policy
+    | for personal access tokens issued through the API authentication flow.
+    |
+    */
+
+    'login_rate_limit' => env('SANCTUM_LOGIN_RATE_LIMIT', 5),
+
+    'max_tokens_per_user' => env('SANCTUM_MAX_TOKENS_PER_USER', 5),
 
     /*
     |--------------------------------------------------------------------------

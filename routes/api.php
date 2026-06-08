@@ -17,7 +17,7 @@ Route::prefix('v1')->group(function (): void {
     Route::get('/readiness', ReadinessController::class);
 
     Route::prefix('auth')->group(function (): void {
-        Route::post('/login', [AuthController::class, 'login']);
+        Route::post('/login', [AuthController::class, 'login'])->middleware('throttle:auth.login');
 
         Route::middleware('auth:sanctum')->group(function (): void {
             Route::post('/logout', [AuthController::class, 'logout']);

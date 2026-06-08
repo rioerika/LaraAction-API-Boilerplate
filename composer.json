@@ -62,6 +62,7 @@
         ],
         "quality": [
             "@composer lint",
+            "@composer analyse",
             "@composer test"
         ],
         "post-autoload-dump": [

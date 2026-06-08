@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Http\Exceptions\HttpResponseException;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Spatie\Permission\Exceptions\UnauthorizedException as SpatieUnauthorizedException;
@@ -82,6 +83,14 @@ return Application::configure(basePath: dirname(__DIR__))
                 errors: [],
                 status: Response::HTTP_NOT_FOUND,
             );
+        });
+
+        $exceptions->render(function (HttpResponseException $exception, Request $request) {
+            if (! $request->is('api/*')) {
+                return null;
+            }
+
+            return $exception->getResponse();
         });
 
         $exceptions->render(function (Throwable $exception, Request $request) {

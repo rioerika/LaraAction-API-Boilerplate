@@ -10,6 +10,6 @@ final class LogoutAction
 {
     public function handle(User $user): void
     {
-        $user->currentAccessToken()?->delete();
+        $user->currentAccessToken()->delete();
     }
 }
