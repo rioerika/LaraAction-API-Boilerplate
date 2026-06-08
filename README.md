@@ -1,42 +1,69 @@
-# Laravel API Boilerplate
+# LaraAction API Boilerplate
 
-Boilerplate ini dibangun untuk aplikasi backend API Laravel dengan prinsip:
+An enterprise-ready, AI-driven Laravel API boilerplate designed for scalability and maintainability. This starter kit strictly adheres to the **Action Pattern**, ensuring thin controllers and isolated business logic.
 
-- thin controller + Action Pattern
-- validasi hanya melalui `FormRequest`
-- response JSON seragam untuk sukses dan gagal
-- autentikasi stateless memakai `Laravel Sanctum`
-- RBAC memakai `spatie/laravel-permission`
+Built with modern PHP standards and ready to be extended by AI assistants using the provided `AGENTS.md` guidelines.
 
-## Fitur Dasar
+## 🚀 Key Architectural Principles
 
-- versioned API di `/api/v1`
-- endpoint `health`, `auth`, `users`, `roles`, dan `permissions`
-- role bawaan `SuperAdmin`, `Manager`, dan `User`
-- permission bawaan untuk CRUD akses dan assignment role/permission
-- akun `SuperAdmin` otomatis untuk environment `local` dan `testing`
+* **Thin Controllers & Action Pattern:** Controllers are solely responsible for HTTP routing. All business logic is strictly encapsulated within `app/Actions/`.
+* **Strict Type-Hinting:** Built for modern PHP (`declare(strict_types=1);` enforced across the codebase).
+* **Isolated Validation:** Zero validation logic in controllers or actions. Strictly utilizing Laravel `FormRequest`.
+* **Standardized API Responses:** A unified JSON response structure for both successful operations and error handling.
+* **Stateless Authentication:** Powered by `Laravel Sanctum` for secure API token management.
+* **Robust RBAC:** Integrated with `spatie/laravel-permission` for granular Role-Based Access Control.
 
-## Setup Lokal
+## 📦 Out-of-the-Box Features
 
-1. Sesuaikan `.env` dengan koneksi `MySQL/MariaDB`.
-2. Jalankan `composer install`.
-3. Jalankan `php artisan migrate --seed`.
-4. Jalankan `php artisan serve`.
+* **API Versioning:** Pre-configured `v1` routing (`/api/v1/*`).
+* **Core Endpoints:** Ready-to-use routes for `health`, `auth`, `users`, `roles`, and `permissions`.
+* **Pre-seeded Roles:** Comes with `SuperAdmin`, `Manager`, and `User` roles.
+* **Granular Permissions:** Pre-defined permissions for basic CRUD operations and role/permission assignments.
+* **Dev-Ready Admin Account:** Automatically provisions a `SuperAdmin` account in `local` and `testing` environments for immediate access.
 
-Default akun development:
+## 🤖 AI-Agent Integration (`AGENTS.md`)
 
-- email: `superadmin@example.com`
-- password: `password`
+This boilerplate includes an `AGENTS.md` file at the root directory. It contains strict system prompts and trigger commands designed for AI coding assistants (like Cursor, GitHub Copilot Workspace, or ChatGPT). By using these guidelines, the AI will automatically generate new modules, write tests, and update documentation while strictly maintaining the project's architectural standards.
 
-## Quality Gate
+## 🛠️ Local Setup & Installation
 
-- format kode: `php artisan pint`
-- test suite: `php artisan test`
+1.  Clone the repository and install dependencies:
+    ```bash
+    composer install
+    ```
+2.  Configure your environment:
+    ```bash
+    cp .env.example .env
+    php artisan key:generate
+    ```
+3.  Set up your `MySQL/MariaDB` credentials in the `.env` file.
+4.  Run migrations and seed the database:
+    ```bash
+    php artisan migrate --seed
+    ```
+5.  Start the development server:
+    ```bash
+    php artisan serve
+    ```
 
-## Catatan Testing
+**Default Development Account:**
+* **Email:** `superadmin@example.com`
+* **Password:** `password`
 
-Suite otomatis memakai `SQLite in-memory` melalui `phpunit.xml`.
+## 🛡️ Quality Control & Testing
 
-## Catatan Pest
+Maintain code quality and ensure everything runs smoothly before deploying.
 
-Target awal adalah Pest, tetapi kombinasi `Laravel 13` + `PHP 8.3` pada environment ini belum kompatibel dengan rilis Pest stabil yang tersedia. Karena itu suite saat ini menggunakan `PHPUnit` sampai dependency upstream mendukung kombinasi tersebut.
+* **Code Formatting:** Ensure PSR-12 compliance and clean code style.
+    ```bash
+    php artisan pint
+    ```
+* **Run Test Suite:**
+    ```bash
+    php artisan test
+    ```
+    *Note: The automated test suite utilizes `SQLite in-memory` configured via `phpunit.xml` for fast execution.*
+
+---
+**Testing Note (Pest vs PHPUnit):**
+The initial target for this project was the Pest testing framework. However, due to current compatibility issues between Laravel 13 + PHP 8.3 and the available stable releases of Pest, the test suite currently relies on native `PHPUnit`. This will be migrated to Pest once the upstream dependencies are fully aligned.
