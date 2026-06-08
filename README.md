@@ -53,6 +53,7 @@ Failed responses:
 - Sanctum-based login, logout, and authenticated profile endpoints
 - RBAC foundation with roles, permissions, and protected resource routes
 - Internal audit trail for RBAC mutations, including actor, subject, and before/after snapshots
+- Swagger / OpenAPI documentation with interactive UI and generated JSON spec
 - Reference modules for `users`, `roles`, and `permissions`
 - Default seeded roles: `SuperAdmin`, `Manager`, and `User`
 - Development bootstrap account for `local` and `testing` environments
@@ -127,6 +128,12 @@ Run static analysis directly:
 composer analyse
 ```
 
+Generate Swagger / OpenAPI documentation:
+
+```bash
+composer docs:generate
+```
+
 Run tests directly:
 
 ```bash
@@ -148,6 +155,14 @@ The intended minimum CI quality gate remains:
 - `composer lint`
 - `composer analyse`
 - `composer test`
+
+## API Documentation
+
+- Swagger UI: `/api/docs`
+- OpenAPI JSON: `/api/docs.json`
+- Generator command: `composer docs:generate`
+
+The Swagger UI is intended for development and internal integration use. Authenticated endpoints use the Sanctum bearer token scheme in the `Authorization` header.
 
 ## Notes
 

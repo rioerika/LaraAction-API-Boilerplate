@@ -12,6 +12,7 @@ CI/CD GitHub Actions dinonaktifkan secara default pada boilerplate ini.
 - Local quality gate yang harus tetap dipakai:
   - `composer lint`
   - `composer analyse`
+  - `composer docs:generate`
   - `composer test`
   - `composer quality`
 
@@ -39,6 +40,7 @@ CI/CD GitHub Actions dinonaktifkan secara default pada boilerplate ini.
 - jalankan minimal:
   - `composer lint`
   - `composer analyse`
+  - `composer docs:generate`
   - `composer test`
 
 ## Fungsi Setiap Sintaks Workflow
@@ -135,6 +137,10 @@ CI/CD GitHub Actions dinonaktifkan secara default pada boilerplate ini.
 ### `composer test`
 - menjalankan suite test project melalui script Composer
 - di repo ini juga membersihkan config cache sebelum test dijalankan
+
+### `composer docs:generate`
+- meregenerasi Swagger / OpenAPI specification
+- memastikan anotasi endpoint dan schema masih valid
 
 ## Kapan Template Ini Perlu Diubah
 - jika versi PHP project berubah

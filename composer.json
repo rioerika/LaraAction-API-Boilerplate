@@ -13,6 +13,7 @@
         "spatie/laravel-permission": "^8.0"
     },
     "require-dev": {
+        "darkaonline/l5-swagger": "^11.0",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "3.10",
         "laravel/pail": "^1.2.5",
@@ -56,6 +57,9 @@
         "analyse": [
             "vendor/bin/phpstan analyse --memory-limit=1G"
         ],
+        "docs:generate": [
+            "@php artisan l5-swagger:generate"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
@@ -63,6 +67,7 @@
         "quality": [
             "@composer lint",
             "@composer analyse",
+            "@composer docs:generate",
             "@composer test"
         ],
         "post-autoload-dump": [

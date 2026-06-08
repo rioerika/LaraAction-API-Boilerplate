@@ -31,6 +31,10 @@
 - `Audit Trail`
   - audit internal untuk perubahan RBAC sensitif
   - mencatat actor, event, subject, before/after snapshot, dan context request
+- `API Documentation`
+  - Swagger UI tersedia di `GET /api/docs`
+  - OpenAPI JSON tersedia di `GET /api/docs.json`
+  - spesifikasi dihasilkan dari anotasi controller dan schema OpenAPI
 
 ## Security
 - Auth token: Laravel Sanctum personal access tokens
@@ -66,6 +70,7 @@
 ## Quality Gate
 - Jalankan `composer lint`
 - Jalankan `composer analyse`
+- Jalankan `composer docs:generate`
 - Jalankan `composer test`
 - Jalankan `composer quality`
 - Jalankan `php artisan test`

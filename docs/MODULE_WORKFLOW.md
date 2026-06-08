@@ -45,7 +45,8 @@ Untuk module `Product`, struktur minimum yang diharapkan:
    - validation failure
    - unauthorized/forbidden access
    - not found bila memakai route model binding
-10. Perbarui `docs/ERD.md` jika ada perubahan tabel atau relasi.
+10. Perbarui anotasi OpenAPI / Swagger bila module menambah atau mengubah endpoint.
+11. Perbarui `docs/ERD.md` jika ada perubahan tabel atau relasi.
 
 ## Naming Convention
 
@@ -59,6 +60,7 @@ Untuk module `Product`, struktur minimum yang diharapkan:
 
 - `composer lint`
 - `composer analyse`
+- `composer docs:generate`
 - `composer test`
 - `composer quality`
 
